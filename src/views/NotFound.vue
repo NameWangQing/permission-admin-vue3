@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
 
 }
@@ -21,11 +21,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
   h1 {
     margin: 0;
     color: #fff;
   }
+
   a {
+    display: block;
     color: #E0FFFF;
     font-size: 14px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;

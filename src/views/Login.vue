@@ -18,52 +18,19 @@
 </template>
 
 <script setup lang="ts">
-
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import type { FormInstance } from 'element-plus'
 import { login } from "@/api/user"
+import { ElMessage } from 'element-plus'
+
+const router = useRouter()
+// const route = useRoute()
+const store = useStore()
 
 const ruleFormRef = ref<FormInstance>()
 let isLogin = ref<boolean>(false)
-
-// const checkAge = (rule: any, value: any, callback: any) => {
-//   if (!value) {
-//     return callback(new Error('Please input the age'))
-//   }
-//   setTimeout(() => {
-//     if (!Number.isInteger(value)) {
-//       callback(new Error('Please input digits'))
-//     } else {
-//       if (value < 18) {
-//         callback(new Error('Age must be greater than 18'))
-//       } else {
-//         callback()
-//       }
-//     }
-//   }, 1000)
-// }
-
-// const validatePass = (rule: any, value: any, callback: any) => {
-//   if (value === '') {
-//     callback(new Error('Please input the password'))
-//   } else {
-//     if (userData.checkPass !== '') {
-//       if (!ruleFormRef.value) return
-//       ruleFormRef.value.validateField('checkPass', () => null)
-//     }
-//     callback()
-//   }
-// }
-// const validatePass2 = (rule: any, value: any, callback: any) => {
-//   if (value === '') {
-//     callback(new Error('Please input the password again'))
-//   } else if (value !== userData.pass) {
-//     callback(new Error("Two inputs don't match!"))
-//   } else {
-//     callback()
-//   }
-// }
-
 const userData = reactive({
   username: '',
   password: '',
@@ -82,8 +49,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
-      // console.log(valid);
       isLogin.value = true;
       login({
         username: userData.username,
@@ -91,19 +56,19 @@ const submitForm = (formEl: FormInstance | undefined) => {
       }).then((res: any) => {
         isLogin.value = false;
         console.log(res);
-        
-        // if (!res.data) {
-        //   $message({
-        //     message: '用户名或密码错误！',
-        //     type: 'error'
-        //   })
-        //   return false
-        // }
-        // setUser(res.data)
+
+        if (!res.data) {
+          ElMessage.error('用户名或密码错误！')
+          return false;
+        }
+
+        store.commit("setUser", res.data)
+        ElMessage.success('Oops, this is a error message.')
         // initDynamicRouter()
-        //   sessionStorage.setItem('v-user', JSON.stringify(res.data))
-        //   sessionStorage.setItem('v-encryp', encodeURIComponent(JSON.stringify(res.data)))
-        //   // $router.push('/')
+        sessionStorage.setItem('v-user', JSON.stringify(res.data))
+        sessionStorage.setItem('v-encryp', encodeURIComponent(JSON.stringify(res.data)))
+        // router.replace('/')
+        router.push('/')
       })
     } else {
       console.log('error submit!')

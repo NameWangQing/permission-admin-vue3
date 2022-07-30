@@ -11,6 +11,7 @@ import "./mock/index";
 import directives from "./directive/index";
 
 const app = createApp(App);
+
 directives.install(app);
 app
   .use(store)
