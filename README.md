@@ -1,21 +1,28 @@
 # permission-admin-vue3
-前端权限管理
-vue3、Ts、mock
+### 介绍
 
-## Project setup
-```
-pnpm install
-```
+这是一个用来练习Vue后台权限管理的简单模板，参考https://github.com/Aizener/admin-permission
+原代码使用vue2，因此使用vue3和TS，对该项目代码更新。
 
-### Compiles and hot-reloads for development
-```
-pnpm run serve
-```
+* 基础模板：有基本操作，mock等功能了，没实现权限判定；
+* 实现模板：基于基础模板做了权限的判定。#todo
 
-### Compiles and minifies for production
-```
-pnpm run build
-```
+> 基础模板在`main`分支，可以通过`git checkout main`来切换；
+>
+> 实现模板在`develop`分支， 可以通过`git checkout develop`来切换；#todo
+> 
+> 关键字：vue3、Ts、mock、axios、element-push
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 安装&运行
+
+1. 安装依赖：
+
+   执行：`pnpm install`；
+
+5. 启动服务
+
+   `yarn serve`或者`pnpm run serve`
+
+6. 打包
+
+   `pnpm run build`
