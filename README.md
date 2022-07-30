@@ -19,10 +19,10 @@
 
    执行：`pnpm install`；
 
-5. 启动服务
+2. 启动服务
 
    `yarn serve`或者`pnpm run serve`
 
-6. 打包
+3. 打包
 
    `pnpm run build`
