@@ -29,10 +29,8 @@ const router = useRouter()
 const store = useStore()
 
 const user = reactive({ ...store.state.user })
-
 const menus = reactive([...user.rights])
 console.log(menus);
-
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)

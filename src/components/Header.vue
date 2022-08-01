@@ -41,7 +41,6 @@ function logout() {
     }, 500)
   }).catch(( error:any ) => error)
 }
-
 </script>
 
 <style lang="scss" scoped>

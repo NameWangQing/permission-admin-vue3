@@ -6,7 +6,7 @@
   </el-breadcrumb>
 </template>
 
-<script>
+<script lang="ts">
 import { mapState } from 'vuex'
 export default {
   computed: {
@@ -14,4 +14,3 @@ export default {
   }
 }
 </script>
-

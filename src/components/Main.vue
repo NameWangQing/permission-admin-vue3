@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import BreadCrumb from '@/components/BreadCrumb.vue'
 
 export default {

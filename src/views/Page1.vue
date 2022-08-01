@@ -1,38 +1,20 @@
 <template>
   <div class="page">
-    <v-card :isOperate="isOperate" v-if="cardShow" @close="cardShow = false" @submitAction="submitAction" :isAdd="isAdd" :rowData="rowData"></v-card>
+    <v-card :isOperate="isOperate" v-if="cardShow" @close="cardShow = false" @submitAction="submitAction" :isAdd="isAdd"
+      :rowData="rowData"></v-card>
     <v-top-bar @show="showAddCard" @handleSearch="handleSearch"></v-top-bar>
-    <el-table
-      :data="tableData"
-      v-loading="loading"
-      border>
-      <el-table-column
-        type="index"
-        label="#"
-        width="50">
+    <el-table :data="tableData" v-loading="loading" border>
+      <el-table-column type="index" label="#" width="50">
       </el-table-column>
-      <el-table-column
-        prop="date"
-        label="日期"
-        width="180">
+      <el-table-column prop="date" label="日期" width="180">
       </el-table-column>
-      <el-table-column
-        prop="name"
-        label="姓名"
-        width="180">
+      <el-table-column prop="name" label="姓名" width="180">
       </el-table-column>
-      <el-table-column
-        prop="address"
-        label="地址">
+      <el-table-column prop="address" label="地址">
       </el-table-column>
-      <el-table-column
-        prop="likes"
-        label="爱好">
+      <el-table-column prop="likes" label="爱好">
       </el-table-column>
-      <el-table-column
-        label="操作"
-        width="200"
-      >
+      <el-table-column label="操作" width="200">
         <template v-slot:default="scope">
           <div class="btns">
             <el-button v-permission.disabled="!rights.includes('edit')" type="primary" @click="handleUpdate(scope)">
@@ -45,13 +27,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      class="pagi"
-      background
-      layout="prev, pager, next"
-      :total="total"
-      @current-change="sizeChange"
-    >
+    <el-pagination class="pagi" background layout="prev, pager, next" :total="total" @current-change="sizeChange">
     </el-pagination>
   </div>
 </template>
@@ -60,9 +36,12 @@
 import TopBar from '@/components/main/TopBar.vue'
 import Card from '@/components/main/Card.vue'
 import { mapMutations } from 'vuex'
+import * as axios from "@/api/page"
+
+// console.log(axios);
 
 export default {
-  data () {
+  data() {
     return {
       tableData: [],
       page: {
@@ -81,23 +60,23 @@ export default {
   },
   methods: {
     ...mapMutations(['addBread']),
-    sizeChange (data) {
+    sizeChange(data) {
       this.page.current = data
       this.getList(this.page.current)
     },
-    initData () {
+    initData() {
       this.getList(this.page.current)
       this.getTotal()
     },
-    showAddCard () {
+    showAddCard() {
       this.isAdd = true
       this.cardShow = true
     },
-    submitAction (info) {
+    submitAction(info) {
       // 添加或修改项目
       this.isOperate = true
       if (info.isAdd) {
-        this.$api.addList({
+        axios.addList({
           rowData: info.rowData
         }).then(() => {
           this.initData()
@@ -120,7 +99,7 @@ export default {
           })
         })
       } else {
-        this.$api.updateList({
+        axios.updateList({
           rowData: info.rowData
         }).then(() => {
           this.initData()
@@ -135,13 +114,13 @@ export default {
         })
       }
     },
-    handleSearch (value) {
+    handleSearch(value) {
       if (value === '') {
         this.getList(1)
         return
       }
       this.loading = true
-      this.$api.getListByValue({
+      axios.getListByValue({
         value
       }).then(res => {
         this.loading = false
@@ -149,18 +128,18 @@ export default {
         this.total = res.data.total
       })
     },
-    handleUpdate (scope) {
+    handleUpdate(scope) {
       this.isAdd = false
       this.cardShow = true
       this.rowData = scope.row
     },
-    handleDelete (scope) {
+    handleDelete(scope) {
       this.$confirm('你确定要删除这一条数据吗？', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'danger'
       }).then(() => {
-        this.$api.deleteList({
+        axios.deleteList({
           id: scope.row.id
         }).then(res => {
           this.initData()
@@ -173,9 +152,9 @@ export default {
         })
       }).catch(err => err)
     },
-    getList (current) {
+    getList(current) {
       this.loading = true
-      this.$api.getList({
+      axios.getList({
         current
       }).then(res => {
         this.tableData = res.data
@@ -183,13 +162,13 @@ export default {
         document.querySelector('.page').scrollTop = 0
       })
     },
-    getTotal () {
-      this.$api.getTotal().then(res => {
+    getTotal() {
+      axios.getTotal().then(res => {
         this.total = res.data
       })
     }
   },
-  created () {
+  created() {
     this.rights = this.$route.meta.rights
     if (this.$route.query.name) {
       this.addBread({
@@ -211,13 +190,16 @@ export default {
   height: 100%;
   overflow-y: scroll;
 }
+
 .el-table {
   transform: translateY(15px);
 }
+
 .pagi {
   margin: 30px 0;
   text-align: center;
 }
+
 .v-message {
   left: 58%;
 }

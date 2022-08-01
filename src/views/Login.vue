@@ -63,7 +63,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         }
 
         store.commit("setUser", res.data)
-        ElMessage.success('Oops, this is a error message.')
+        ElMessage.success('登录成功')
         // initDynamicRouter()
         sessionStorage.setItem('v-user', JSON.stringify(res.data))
         sessionStorage.setItem('v-encryp', encodeURIComponent(JSON.stringify(res.data)))
